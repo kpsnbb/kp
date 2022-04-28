@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jkh.j2eedemo.dao.IStudentClass">
+    <resultMap id="stuclassmap" type="com.jkh.j2eedemo.entity.StudentClass">
+        <result column="id" property="id"></result>
+        <result column="name" property="name"></result>
+        <result column="charger" property="charger"></result>
+        <result column="special" property="id"></result>
+        <collection property="students" column="id" ofType="com.jkh.j2eedemo.entity.Student" select="findStus">
+        </collection>
+    </resultMap>
+
+<!--根据班级id查询班级-->
+    <select id="findById" parameterType="java.lang.String" resultType="com.jkh.j2eedemo.entity.StudentClass">
+        select * from studentclass where id=#{id}
+    </select>
+<!--根据班级查询班级的学生-->
+    <select id="findStus" resultType="com.jkh.j2eedemo.entity.Student"
+            parameterType="java.lang.String">
+        select * from student where myClass=#{id}
+    </select>
+</mapper>
+
+
+

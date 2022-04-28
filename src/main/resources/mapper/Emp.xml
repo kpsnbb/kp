@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jkh.j2eedemo.dao.IEmployee">
+    <sql id="addemp">
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id!=null">
+                id,
+            </if>
+            <if test="name!=null">
+                name,
+            </if>
+            <if test="sex!=null">
+                sex,
+            </if>
+            <if test="birthday!=null">
+                birthday,
+            </if>
+            <if test="position!=null">
+              position,
+            </if>
+        </trim>
+    </sql>
+    <sql id="addempvalues">
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="name!=null">
+                #{name},
+            </if>
+            <if test="sex!=''">
+                #{sex},
+            </if>
+            <if test="birthday!=null">
+                #{birthday},
+            </if>
+            <if test="position!=null">
+                #{position},
+            </if>
+        </trim>
+    </sql>
+    <!--新增员工-->
+    <insert id="addEmployee" parameterType="com.jkh.j2eedemo.entity.Employee">
+     insert into employee<include refid="addemp"></include>values<include refid="addempvalues"></include>
+    </insert>
+    <!--查询单个员工-->
+    <select id="getEmployee" parameterType="java.lang.String" resultType="com.jkh.j2eedemo.entity.Employee">
+        select * from employee where id=#{id}
+    </select>
+    <!--按条件删除-->
+    <delete id="batchDel" parameterType="java.util.Map">
+        delete from employee where name like '%${name}%'
+    </delete>
+    <!--    按条件查询-->
+    <update id="batchEdit" parameterType="java.util.Map">
+        update employee set
+        position =#{position}
+        where name like '%${name}%'
+    </update>
+    <!--按条件查询员工-->
+    <select id="findEmp" parameterType="java.util.Map" resultType="java.util.Map">
+        select * from employee
+        <where>
+            <choose>
+                <when test="id!=null and id!=''">
+                    and id like '%${id}%'
+                </when>
+                <when test="id==null and name!=null and name!=''">
+                    and name like '%${name}%'
+                </when>
+                <when test="name==null and id==null and number!=null and number!='' ">
+                    and number like '%${number}%'
+                </when>
+                <otherwise>
+                    and id is not null
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+<!--    修改员工数据-->
+    <update id="edit" parameterType="com.jkh.j2eedemo.entity.Employee">
+       update employee
+       <set>
+            <if test="name!=null">
+              name=#{name},
+            </if>
+            <if test="sex!=null">
+               sex=#{sex},
+            </if>
+            <if test="position!=null">
+             position=#{position},
+            </if>
+       </set>
+      where id=#{id}
+    </update>
+<!--利用foreach实现员工信息批量新增-->
+<!--    第一种查询方法-->
+<!--<insert id="batchSave" parameterType="java.util.List">-->
+
+<!--    <foreach collection="list" item="emp" separator=";" close=";">-->
+<!--        insert into employee-->
+<!--        <trim suffixOverrides="," suffix=")" prefix="(">-->
+<!--            <if test="emp.id!=null">-->
+<!--            id,-->
+<!--            </if>-->
+<!--            <if test="emp.name!=null">-->
+<!--            name,-->
+<!--            </if>-->
+<!--            <if test="emp.sex!=null">-->
+<!--            sex,-->
+<!--            </if>-->
+<!--            <if test="emp.number!=null">-->
+<!--            number,-->
+<!--            </if>-->
+<!--            <if test="emp.position!=null">-->
+<!--            position,-->
+<!--            </if>-->
+<!--            <if test="emp.birthday!=null">-->
+<!--            birthday,-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--        values-->
+<!--        <trim suffixOverrides="," suffix=")" prefix="(">-->
+<!--            <if test="emp.id!=null">-->
+<!--                #{emp.id},-->
+<!--            </if>-->
+<!--            <if test="emp.name!=null">-->
+<!--                #{emp.name},-->
+<!--            </if>-->
+<!--            <if test="emp.sex!=null">-->
+<!--                #{emp.sex},-->
+<!--            </if>-->
+<!--            <if test="emp.number!=null">-->
+<!--                #{emp.number},-->
+<!--            </if>-->
+<!--            <if test="emp.position!=null">-->
+<!--                #{emp.position},-->
+<!--            </if>-->
+<!--            <if test="emp.birthday!=null">-->
+<!--                #{emp.birthday},-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--    </foreach>-->
+<!--</insert>-->
+<!--    第二种查询方法-->
+    <insert id="batchSave" parameterType="java.util.List">
+        insert into employee (id,name,sex) values
+        <foreach collection="list" item="emp" separator=",">
+            (#{emp.id},#{emp.name},#{emp.sex})
+        </foreach>
+    </insert>
+
+
+</mapper>

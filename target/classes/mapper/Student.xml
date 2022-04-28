@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jkh.j2eedemo.dao.IStudent">
+    <sql id="mysq">
+        name,myAge,sno,
+        case when mySex='1' then '男'
+             when mySex='0' then '女'
+             else mySex end mySex
+    </sql>
+
+    <sql id="addStu">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                id,
+            </if>
+            <if test="name!=null">
+                name,
+            </if>
+            <if test="myClass!=null">
+                myClass,
+            </if>
+            <if test="sno!=null">
+                sno,
+            </if>
+            <if test="mySex!=null">
+                mySex,
+            </if>
+        </trim>
+    </sql>
+    <sql id="addResult">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="name!=null">
+                #{name},
+            </if>
+            <if test="myClass!=null">
+                #{myClass.id},
+            </if>
+            <if test="sno!=null">
+                #{sno},
+            </if>
+            <if test="mySex!=null">
+                #{mySex},
+            </if>
+        </trim>
+    </sql>
+
+
+    <resultMap id="stumapper" type="com.jkh.j2eedemo.entity.Student">
+        <id column="id" property="id"></id>
+        <result column="sno" property="sno"></result>
+        <result column="name" property="name"></result>
+        <association property="myClass" column="myClass" javaType="com.jkh.j2eedemo.entity.StudentClass"
+                     select="com.jkh.j2eedemo.dao.IStudentClass.findById">
+        </association>
+    </resultMap>
+    <!--    根据id查询学生-->
+    <select id="findById" parameterType="java.lang.String" resultMap="stumapper">
+        select * from student where id=#{id}
+</select>
+
+    <select id="find" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+        <include refid="mysq"></include>
+        from student
+        <where>
+            <choose>
+                <when test="id!=null and id!=''">
+                    and id like '%${id}%'
+                </when>
+                <when test="id==null or id=='' and name!=null and name!=''">
+                    and name like '%${name}%'
+                </when>
+                <otherwise>
+                    and id like '${id}'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+
+    <insert id="add" parameterType="com.jkh.j2eedemo.entity.Student">
+        insert into student
+        <include refid="addStu">
+        </include>values
+        <include refid="addResult"></include>
+    </insert>
+    <update id="edit" parameterType="com.jkh.j2eedemo.entity.Student">
+        update student
+        <set>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="mySex!=null">
+                mySex=#{mySex},
+            </if>
+            <if test="myAge!=null">
+                myAge=#{myAge},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--    批量新增学生-->
+    <insert id="batchSave" parameterType="java.util.List">
+        insert into student (id,name,myAge,myClass,mySex,sno,number,createdate) values
+        <foreach collection="list" item="stu" separator=",">
+            <trim suffix=")" prefix="(">
+                #{stu.id},#{stu.name},#{stu.myAge},#{stu.myClass.id},#{stu.mySex},#{stu.sno},#{stu.number},now()
+            </trim>
+        </foreach>
+    </insert>
+    <!--    测试删除学生-->
+    <delete id="del" parameterType="com.jkh.j2eedemo.entity.Student">
+    delete from student where name like '%${name}%'
+</delete>
+    <!--    批量修改学生信息-->
+    <update id="batchUpdat" parameterType="java.util.List">
+        <foreach collection="list" item="stu" separator=";">
+            update student
+            <set>
+                <if test="stu.name!=null">,name=#{stu.name}</if>
+                <if test="stu.myAge!=null">,myAge=#{stu.myAge}</if>
+                <if test="stu.number!=null">,number=#{stu.number}</if>
+                <if test="stu.myClass!=null">,myClass=#{stu.myClass}</if>
+            </set>
+            where
+            <if test="stu.id!=null">id=#{stu.id}</if>
+        </foreach>
+    </update>
+    <sql id="findCondition">
+        <where>
+            <choose>
+                <when test="name!=null and name!=''">
+                    and name like '%${name}%'
+                </when>
+                <when test="myClass!=''">
+                    and myClass=#{myclass}
+                </when>
+         <otherwise>
+                 and id is not null
+         </otherwise>
+            </choose>
+        </where>
+    </sql>
+    <select id="getRowsCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*) total from student
+        <include refid="findCondition"></include>
+    </select>
+    <select id="findByPage" parameterType="java.util.Map" resultType="com.jkh.j2eedemo.entity.Student">
+        select * from student
+        <include refid="findCondition"></include>
+        limit #{start},#{rowscount}
+    </select>
+</mapper>
