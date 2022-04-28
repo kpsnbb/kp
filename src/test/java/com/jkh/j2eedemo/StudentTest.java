@@ -43,7 +43,7 @@ public class StudentTest {
     @Test
     void testFindStu() {
         Map<String, Object> cons = new HashMap<String, Object>();
-        cons.put("name", "测试");
+        cons.put("name", "ceshi");
         KesunReturn back = bll.findStus(cons);
         System.out.println(back.getMessage());
     }
@@ -55,7 +55,7 @@ public class StudentTest {
 */
     @Test
     void testAddStu() {
-        stu.setId("ceshi68787");
+        stu.setId("ceshi454568787");
         stu.setName("小雨");
         stu.setMySex("女");
         stu.setSno("66666666");

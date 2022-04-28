@@ -1,7 +1,7 @@
 package com.jkh.j2eedemo.aspect;
 
 import com.alibaba.fastjson.JSON;
-import com.jkh.j2eedemo.bll.impl.DoLogServiceimpl;
+import com.jkh.j2eedemo.bll.impl.Log.DoLogServiceimpl;
 import com.jkh.j2eedemo.entity.KesunReturn;
 import com.jkh.j2eedemo.entity.Log;
 import org.aspectj.lang.JoinPoint;
@@ -20,7 +20,7 @@ public class MyLogAop {
     @Autowired
     private DoLogServiceimpl dologservice;
     private Date startdate;
-    @Pointcut(value="execution(* com.jkh.j2eedemo.bll.impl.AbsSuperService.findStuById())")
+    @Pointcut(value="execution(* com.jkh.j2eedemo.bll.impl.*.*(..))")
     public void mypointcut(){
 
     }
@@ -34,17 +34,16 @@ public class MyLogAop {
         Log log = new Log();
         Date finishtime = new Date();
         log.setFinishDate(finishtime);
-        log.setActionName(joinPoint.getSignature().toString());
-        System.out.println("后置通知>>"+joinPoint.getSignature().toString());
-        log.setModuleName(joinPoint.getSignature().toString());
+        log.setActionName(joinPoint.getSignature().getName());
+        System.out.println("AfterReturning,返回值通知>>>");
+        log.setModuleName(joinPoint.getTarget().getClass().getSimpleName());
         log.setParams(JSON.toJSONString(joinPoint.getArgs()));
         log.setReturnValue(JSON.toJSONString(back));
         log.setName(joinPoint.getSignature().getName());
         log.setBussinessDate(startdate);
         log.setStatus(back.getCode());
-//        log.setSpendTime(finishtime.getTime()-startdate.getTime());
-        dologservice.setModel(log);
-        dologservice.addStu();
+        log.setDescription(joinPoint.getSignature().toString());
+        dologservice.addLog(log);
         System.out.println(log);
     }
 }

@@ -58,7 +58,7 @@ class J2eedemoApplicationTests {
     }
     @Test
     void testAdd(){
-        stu.setId("66968394884");
+        stu.setId("6696835354594884");
         stu.setName("爱意随风起");
         stu.setMySex("女");
         stu.setSno("66666666");
