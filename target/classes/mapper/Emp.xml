@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jkh.j2eedemo.dao.IEmployee">
+<mapper namespace="com.kp.j2eedemo.dao.IEmployee">
     <sql id="addemp">
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="id!=null">
@@ -41,11 +41,11 @@
         </trim>
     </sql>
     <!--新增员工-->
-    <insert id="addEmployee" parameterType="com.jkh.j2eedemo.entity.Employee">
+    <insert id="addEmployee" parameterType="com.kp.j2eedemo.entity.Employee">
      insert into employee<include refid="addemp"></include>values<include refid="addempvalues"></include>
     </insert>
     <!--查询单个员工-->
-    <select id="getEmployee" parameterType="java.lang.String" resultType="com.jkh.j2eedemo.entity.Employee">
+    <select id="getEmployee" parameterType="java.lang.String" resultType="com.kp.j2eedemo.entity.Employee">
         select * from employee where id=#{id}
     </select>
     <!--按条件删除-->
@@ -79,7 +79,7 @@
         </where>
     </select>
 <!--    修改员工数据-->
-    <update id="edit" parameterType="com.jkh.j2eedemo.entity.Employee">
+    <update id="edit" parameterType="com.kp.j2eedemo.entity.Employee">
        update employee
        <set>
             <if test="name!=null">

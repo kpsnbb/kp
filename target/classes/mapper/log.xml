@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jkh.j2eedemo.dao.Ilog">
+<mapper namespace="com.kp.j2eedemo.dao.Ilog">
     <!--添加日志到数据库-->
     <sql id="logcol">
         <trim suffixOverrides="," prefix="(" suffix=")">
@@ -35,7 +35,7 @@
             <if test="status!=null">#{status},</if>
         </trim>
     </sql>
-    <insert id="add" parameterType="com.jkh.j2eedemo.entity.Log">
+    <insert id="add" parameterType="com.kp.j2eedemo.entity.Log">
         insert into
         log
         <include refid="logcol"></include>

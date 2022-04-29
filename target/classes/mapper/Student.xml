@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jkh.j2eedemo.dao.IStudent">
+<mapper namespace="com.kp.j2eedemo.dao.IStudent">
     <sql id="mysq">
         name,myAge,sno,
         case when mySex='1' then '男'
@@ -49,12 +49,12 @@
     </sql>
 
 
-    <resultMap id="stumapper" type="com.jkh.j2eedemo.entity.Student">
+    <resultMap id="stumapper" type="com.kp.j2eedemo.entity.Student">
         <id column="id" property="id"></id>
         <result column="sno" property="sno"></result>
         <result column="name" property="name"></result>
-        <association property="myClass" column="myClass" javaType="com.jkh.j2eedemo.entity.StudentClass"
-                     select="com.jkh.j2eedemo.dao.IStudentClass.findById">
+        <association property="myClass" column="myClass" javaType="com.kp.j2eedemo.entity.StudentClass"
+                     select="com.kp.j2eedemo.dao.IStudentClass.findById">
         </association>
     </resultMap>
     <!--    根据id查询学生-->
@@ -82,13 +82,13 @@
     </select>
 
 
-    <insert id="add" parameterType="com.jkh.j2eedemo.entity.Student">
+    <insert id="add" parameterType="com.kp.j2eedemo.entity.Student">
         insert into student
         <include refid="addStu">
         </include>values
         <include refid="addResult"></include>
     </insert>
-    <update id="edit" parameterType="com.jkh.j2eedemo.entity.Student">
+    <update id="edit" parameterType="com.kp.j2eedemo.entity.Student">
         update student
         <set>
             <if test="name!=null">
@@ -113,7 +113,7 @@
         </foreach>
     </insert>
     <!--    测试删除学生-->
-    <delete id="del" parameterType="com.jkh.j2eedemo.entity.Student">
+    <delete id="del" parameterType="com.kp.j2eedemo.entity.Student">
     delete from student where name like '%${name}%'
 </delete>
     <!--    批量修改学生信息-->
@@ -149,7 +149,7 @@
         select count(*) total from student
         <include refid="findCondition"></include>
     </select>
-    <select id="findByPage" parameterType="java.util.Map" resultType="com.jkh.j2eedemo.entity.Student">
+    <select id="findByPage" parameterType="java.util.Map" resultType="com.kp.j2eedemo.entity.Student">
         select * from student
         <include refid="findCondition"></include>
         limit #{start},#{rowscount}
