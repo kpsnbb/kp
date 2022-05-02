@@ -41,7 +41,7 @@ public abstract class AbsSuperService implements AbsSuperServiceInter {
     /**
      * description:根据id查找学生
      * date: 2022/4/1 21:57
-     * author:jkh
+     * author:kp
      */
     @Override
     public KesunReturn findStuById() {
@@ -72,7 +72,7 @@ public abstract class AbsSuperService implements AbsSuperServiceInter {
     /**
      * description:添加学生
      * date: 2022/4/1 22:04
-     * author:jkh
+     * author:kp
      */
     @Override
     public KesunReturn addStu() {
@@ -101,7 +101,7 @@ public abstract class AbsSuperService implements AbsSuperServiceInter {
     /**
      * description:修改学生数据
      * date: 2022/4/1 21:56
-     * author:jkh
+     * author:kp
      */
     @Override
     public KesunReturn editStu() {
@@ -130,7 +130,7 @@ public abstract class AbsSuperService implements AbsSuperServiceInter {
     /**
      * description:根据条件修改学生数据
      * date: 2022/4/1 21:53
-     * author:jkh
+     * author:kp
      */
     @Override
     public KesunReturn batchEditStu(Map<String, Object> cons) {
@@ -159,7 +159,7 @@ public abstract class AbsSuperService implements AbsSuperServiceInter {
     /**
      * description:按照多个条件查询学生
      * date: 2022/4/1 19:49
-     * author:jkh
+     * author:kp
      */
     @Override
     public KesunReturn findStus(Map<String, Object> cons) {
@@ -187,7 +187,7 @@ public abstract class AbsSuperService implements AbsSuperServiceInter {
 /**
  * description:删除学生
  * date: 2022/4/1 22:40
- * author:jkh
+ * author:kp
 */
     @Override
     public KesunReturn delete() {
@@ -222,7 +222,7 @@ public abstract class AbsSuperService implements AbsSuperServiceInter {
     /**
      * description:批量新增学生
      * date: 2022/4/1 20:05
-     * author:jkh
+     * author:kp
      */
     @Override
     public KesunReturn batchSaveStu(List<AbsSuperObject> objs) {
@@ -258,7 +258,7 @@ public abstract class AbsSuperService implements AbsSuperServiceInter {
     /**
      * description:批量修改
      * date: 2022/4/1 22:07
-     * author:jkh
+     * author:kp
     */
   @Override
   public  KesunReturn batchUpdat(List<AbsSuperObject> objs){
@@ -284,7 +284,7 @@ public abstract class AbsSuperService implements AbsSuperServiceInter {
 /**
  * description:获取行数
  * date: 2022/4/5 15:01
- * author:jkh
+ * author:kp
 */
     @Override
     public  KesunReturn getRowscount(Map<String, Object> cons) {
@@ -312,7 +312,7 @@ public abstract class AbsSuperService implements AbsSuperServiceInter {
 /**
  * description:分页查找
  * date: 2022/4/5 15:01
- * author:jkh
+ * author:kp
 */
     @Override
     public  KesunReturn findByPage(Map<String, Object> cons, int startPage, int rowsCount) {
