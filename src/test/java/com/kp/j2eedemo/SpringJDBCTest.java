@@ -16,17 +16,17 @@ public class SpringJDBCTest {
     }
     @Test
     void add() {
-        int result = template.update("insert into temp(name,balance) values('20000','400000000')");
+        int result = template.update("insert into temp(name,balance) values('20002','10000')");
         System.out.println(result);
     }
     @Test
     void edit() {
-        int result = template.update("update temp set name='20001' where id = 1");
+        int result = template.update("update temp set name='20006' where id = 6");
         System.out.println(result);
     }
     @Test
     void del() {
-        int result = template.update("delete from temp where id = 1");
+        int result = template.update("delete from temp where id = 6");
         System.out.println(result);
     }
 }

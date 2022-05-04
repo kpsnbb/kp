@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @Configuration
@@ -20,6 +21,7 @@ public class SpringJDBC {
         source.setPassword("103735");
         return source;
     }
+
     @Bean
     public JdbcTemplate initJDBCTemplate(){
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
